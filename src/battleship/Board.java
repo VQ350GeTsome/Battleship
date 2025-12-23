@@ -57,8 +57,8 @@ public class Board {
         ships[0] = new Ship("Patrol",       2, PATROL);
         
         // Initalize both grids so everything is 0.
-        this.clearBoats();
-        for (int i = 0; shotsGrid.length > i; i++) for (int j = 0; shotsGrid[0].length > j; j++) shotsGrid[i][j] = Board.EMPTY;
+        this.clear();
+        
     }
     
     public void linkBoard(Board enemyBoard) { this.enemyBoard = enemyBoard; }
@@ -127,8 +127,6 @@ public class Board {
         
         // -100 to adjust for ID
         shot[id - 100] = 1.0f;
-        
-        System.out.println("shot length: " + shot.length);
         return shot;
     }
         
@@ -153,7 +151,7 @@ public class Board {
             int cx = horizontal ? x + i : x;
             int cy = horizontal ? y : y + i;
 
-            if (shipsGrid[cy][cx] != 0)
+            if (shipsGrid[cx][cy] != 0)
                 return false;
         }
 
@@ -162,7 +160,7 @@ public class Board {
             int cx = horizontal ? x + i : x;
             int cy = horizontal ? y : y + i;
 
-            shipsGrid[cy][cx] = ship.id; // or ship ID
+            shipsGrid[cx][cy] = ship.id; // or ship ID
         }
         return true;
     }
@@ -198,13 +196,29 @@ public class Board {
             }
         }
     }
-    public void clearBoats() {
-        for (int i = 0; shipsGrid.length > i; i++) for (int j = 0; shipsGrid[0].length > j; j++) shipsGrid[i][j] = Board.EMPTY;
-        for (Ship s : ships) s.placed = false;
-    }
+    
     public boolean areShipsPlaced() {
         for (Ship s : ships) if (!s.placed) return false;
         return true;
+    }
+    
+    public boolean areShipsSunk() {
+        int[][] enemyShots = enemyBoard.getShotsGrid();
+        for (Ship s : ships) for (java.awt.Point p : s.cells) 
+            if (enemyShots[p.x][p.y] == Board.EMPTY) return false;
+        return true;
+    }
+    
+    public void clear() {
+        this.clearBoats();
+        this.clearShots();
+    }
+    public void clearShots() {
+        for (int i = 0; shotsGrid.length > i; i++) for (int j = 0; shotsGrid[0].length > j; j++) shotsGrid[i][j] = Board.EMPTY;
+    }
+    public void clearBoats() {
+        for (int i = 0; shipsGrid.length > i; i++) for (int j = 0; shipsGrid[0].length > j; j++) shipsGrid[i][j] = Board.EMPTY;
+        for (Ship s : ships) s.placed = false;
     }
 
     private java.awt.image.BufferedImage calculateBackground(java.awt.image.BufferedImage image, float time) {       

@@ -41,6 +41,31 @@ public class BattleShip extends javax.swing.JPanel {
             op.shoot(); 
             op.train(playerBoard.getShotsGrid(), playerBoard.getShotForTraining(x, y));
         }
+        
+        // Check if anyone has won.
+        if (playerBoard.areShipsSunk()) { 
+            javax.swing.JOptionPane.showMessageDialog(
+                null, 
+                "You lost!", 
+                "Game Over", 
+                javax.swing.JOptionPane.INFORMATION_MESSAGE
+            );
+            resetAll();
+        }
+        else if (opponentBoard.areShipsSunk()) { 
+            javax.swing.JOptionPane.showMessageDialog(
+                null, 
+                "You won!", 
+                "Victory", 
+                javax.swing.JOptionPane.INFORMATION_MESSAGE
+            );
+            resetAll();
+        }
+    }
+    public void resetAll() {
+        playerBoard.clear();
+        opponentBoard.clear();
+        opponentBoard.shuffleBoats();
     }
     
     public void startGame() {

@@ -41,7 +41,7 @@ public class Display extends javax.swing.JFrame {
         resetSubmarineButton.setEnabled(false);
         resetPatrolButton.setEnabled(false);
     }
-    private void endableButtons() {
+    private void enableButtons() {
         startButton.setEnabled(true);
         resetBoatsButton.setEnabled(true);
         shuffleBoatsButton.setEnabled(true);
@@ -80,6 +80,7 @@ public class Display extends javax.swing.JFrame {
         resetDestroyerButton = new javax.swing.JButton();
         resetSubmarineButton = new javax.swing.JButton();
         resetPatrolButton = new javax.swing.JButton();
+        resetGameButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -217,6 +218,16 @@ public class Display extends javax.swing.JFrame {
             }
         });
 
+        resetGameButton.setText("Reset Game");
+        resetGameButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        resetGameButton.setEnabled(false);
+        resetGameButton.setFocusable(false);
+        resetGameButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetGameButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -243,7 +254,8 @@ public class Display extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(startButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(resetBoatsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-                    .addComponent(shuffleBoatsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(shuffleBoatsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resetGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -262,7 +274,9 @@ public class Display extends javax.swing.JFrame {
                     .addComponent(resetBattleshipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(resetDestroyerButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(resetDestroyerButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                        .addComponent(resetGameButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                     .addComponent(destroyerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -296,6 +310,7 @@ public class Display extends javax.swing.JFrame {
             startButton.setText("Started");
             this.disableButtons();
             battleShip.startGame(); 
+            resetGameButton.setEnabled(true);
         } else {
             startButton.setText("Place Ships ...");
         }
@@ -345,6 +360,12 @@ public class Display extends javax.swing.JFrame {
         battleShip.resetPlayerBoard();
     }//GEN-LAST:event_resetBoatsButtonActionPerformed
 
+    private void resetGameButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetGameButtonActionPerformed
+        battleShip.resetAll();
+        this.enableButtons();
+        resetGameButton.setEnabled(false);
+    }//GEN-LAST:event_resetGameButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -390,6 +411,7 @@ public class Display extends javax.swing.JFrame {
     private javax.swing.JButton resetBoatsButton;
     private javax.swing.JButton resetCarrierButton;
     private javax.swing.JButton resetDestroyerButton;
+    private javax.swing.JButton resetGameButton;
     private javax.swing.JButton resetPatrolButton;
     private javax.swing.JButton resetSubmarineButton;
     private javax.swing.JButton shuffleBoatsButton;

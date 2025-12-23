@@ -38,7 +38,6 @@ public class Opponent {
     
     public void train(int[][] grid, float[] target) {
         float[] input = flattenArray(grid);
-        System.out.println("Input Length: " + input.length + "\n" + "Target Lenght: " + target.length);
         brain.train(input, target);
     }
     

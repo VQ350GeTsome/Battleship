@@ -52,6 +52,7 @@
                   <Component id="startButton" alignment="1" max="32767" attributes="0"/>
                   <Component id="resetBoatsButton" alignment="1" pref="180" max="32767" attributes="0"/>
                   <Component id="shuffleBoatsButton" alignment="1" max="32767" attributes="0"/>
+                  <Component id="resetGameButton" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -75,7 +76,10 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="resetDestroyerButton" pref="35" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="resetDestroyerButton" alignment="3" pref="35" max="32767" attributes="0"/>
+                      <Component id="resetGameButton" alignment="3" pref="35" max="32767" attributes="0"/>
+                  </Group>
                   <Component id="destroyerButton" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -355,6 +359,26 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetPatrolButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="resetGameButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Reset Game"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.BevelBorderInfo">
+            <BevelBorder>
+              <Color PropertyName="highlightOuter" blue="cc" green="cc" red="cc" type="rgb"/>
+              <Color PropertyName="highlightInner" blue="99" green="99" red="99" type="rgb"/>
+              <Color PropertyName="shadowOuter" blue="99" green="99" red="99" type="rgb"/>
+              <Color PropertyName="shadowInner" blue="66" green="66" red="66" type="rgb"/>
+            </BevelBorder>
+          </Border>
+        </Property>
+        <Property name="enabled" type="boolean" value="false"/>
+        <Property name="focusable" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="resetGameButtonActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
