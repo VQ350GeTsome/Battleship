@@ -1,10 +1,11 @@
 package battleship;
 
 public class Display extends javax.swing.JFrame {
-
-    /**
-     * Creates new form Display
-     */
+    
+    private int d;
+    
+    private boolean w;
+    
     public Display() {
         initComponents();
     }
@@ -19,16 +20,27 @@ public class Display extends javax.swing.JFrame {
         battleShip = new battleship.BattleShip();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
+
+        battleShip.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                battleShipMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout battleShipLayout = new javax.swing.GroupLayout(battleShip);
         battleShip.setLayout(battleShipLayout);
         battleShipLayout.setHorizontalGroup(
             battleShipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 1500, Short.MAX_VALUE)
         );
         battleShipLayout.setVerticalGroup(
             battleShipLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1000, Short.MAX_VALUE)
+            .addGap(0, 750, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -37,15 +49,28 @@ public class Display extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(battleShip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 350, Short.MAX_VALUE))
+                .addGap(0, 250, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(battleShip, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(battleShip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 250, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        final int spaceBar = 32;
+        
+        if (evt.getKeyCode() == spaceBar) battleShip.displayBoards(++d);
+        
+    }//GEN-LAST:event_formKeyPressed
+
+    private void battleShipMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_battleShipMouseClicked
+        
+    }//GEN-LAST:event_battleShipMouseClicked
 
     /**
      * @param args the command line arguments
