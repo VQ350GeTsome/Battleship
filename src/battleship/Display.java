@@ -3,7 +3,6 @@ package battleship;
 public class Display extends javax.swing.JFrame {
     
     private float d = -100, timeMomentum = 0.25f;
-    
 
     private javax.swing.Timer timer;
     
@@ -281,9 +280,10 @@ public class Display extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        if (evt.getKeyChar() == 'p') {
+        if (evt.getKeyChar() == 'p') 
             battleShip.printOpponent();
-        }
+        else if (evt.getKeyChar() == 's') 
+            battleShip.saveOpponent();
         
     }//GEN-LAST:event_formKeyPressed
 

@@ -10,6 +10,8 @@ public class BattleShip extends javax.swing.JPanel {
     private final Board playerBoard, opponentBoard;
     private Opponent op;
     
+    public static final float LEARNING_RATE = 0.15f;
+    
     public BattleShip() {
         // Init image.
         imageSizer();
@@ -24,15 +26,21 @@ public class BattleShip extends javax.swing.JPanel {
         opponentBoard.linkBoard(playerBoard);
                 
         // The opponent himself.
-        //op = new Opponent(boardSize*boardSize, "In-Training");
-        try { op = OpponentStorage.loadOpponent("In-Training"); }
-        catch (Exception e) { System.err.println(e.getMessage()); }
+        op = new Opponent(boardSize*boardSize, "In-Training");
+        //try { op = OpponentStorage.loadOpponent("In-Training"); }
+        //catch (Exception e) { System.err.println(e.getMessage()); }
+        op.linkBoard(opponentBoard);
         
         this.displayBoards(-100);
     }
 
     public void playerClick(int x, int y) {
-        playerBoard.notifyClick(x, y);
+        // If player takes a turn, let the
+        // opponent take a shot.
+        if (playerBoard.notifyClick(x, y)) {
+            op.shoot(); 
+            op.train(playerBoard.getShotsGrid(), playerBoard.getShotForTraining(x, y));
+        }
     }
     
     public void startGame() {
@@ -47,11 +55,12 @@ public class BattleShip extends javax.swing.JPanel {
     public void shufflePlayerBoard() { playerBoard.shuffleBoats(); }
     public void resetPlayerBoard() { playerBoard.clearBoats(); }
         
-    public void saveOpponent() { OpponentStorage.saveOpponent(op); }
+    public void saveOpponent() { System.out.println("Saving Opponent..."); OpponentStorage.saveOpponent(op); }
     public void printOpponent() { System.out.println(op.toString()); }
     
     public void displayBoards(float time) {
         image = playerBoard.writeToImage(image, time);
+        image = opponentBoard.writeHits(image);
         repaint();
     }
        

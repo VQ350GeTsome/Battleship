@@ -4,24 +4,23 @@ public class Opponent {
 
     private final ML.MLP brain;
     private final String name;
+    private Board board;
     
     public Opponent(int totalBoardSize, String name) {
-        this.brain = new ML.MLP(0.05f, totalBoardSize, 64, 64, totalBoardSize);
+        this.brain = new ML.MLP(BattleShip.LEARNING_RATE, totalBoardSize, 64, 64, totalBoardSize);
         this.brain.setAllLayersExceptFinalActivation(ML.AI.Activation.RELU);
         this.brain.setFinalLayerActivation(ML.AI.Activation.SOFT_SIGN);
         this.name = name;
     }
     public Opponent(ML.MLP brain, String name) { this.brain = brain; this.name = name; }
     
+    public void linkBoard(Board b) { this.board = b; }
+    
     public String getName() { return name; }
     
-    public int shoot(int[][] grid) {
-        int col = grid[0].length;
-        
-        float[] unpackedGrid = new float[grid.length * col];
-        
-        for (int i = 0; grid.length > i; i++) for (int j = 0; col > j; j++) unpackedGrid[i * col + j] = grid[i][j];
-  
+    public void shoot() {       
+        float[] unpackedGrid = flattenArray(board.getShotsGrid());
+
         float[] thought = brain.forward(unpackedGrid);
         
         float max = Float.NEGATIVE_INFINITY;
@@ -33,7 +32,24 @@ public class Opponent {
             }
         }
         
-        return idx;
+        System.out.println("Opponent shot at : " + idx);
+        board.shootAndRecord(idx);
+    }
+    
+    public void train(int[][] grid, float[] target) {
+        float[] input = flattenArray(grid);
+        System.out.println("Input Length: " + input.length + "\n" + "Target Lenght: " + target.length);
+        brain.train(input, target);
+    }
+    
+    private float[] flattenArray(int[][] grid) {
+        int col = grid[0].length;
+        
+        float[] unpackedGrid = new float[grid.length * col];
+        
+        for (int i = 0; grid.length > i; i++) for (int j = 0; col > j; j++) unpackedGrid[i * col + j] = grid[i][j];
+        
+        return unpackedGrid;
     }
     
     @Override

@@ -66,12 +66,14 @@ public class Board {
         if (shipsGrid[x][y] > 0) return Board.HIT;
         else return Board.MISS;
     }
-    private void shootAndRecord(int id) {
+    public void shootAndRecord(int id) {
         if (id == -1) return;
         int x = id % size, y = id / size;
         int info = enemyBoard.queryBoard(x, y);
         shotsGrid[x][y] = info;
     }
+    
+    public int[][] getShotsGrid() { return this.shotsGrid; }
     
     public int getGridClicked(int mx, int my) {
         // Our grid
@@ -97,22 +99,37 @@ public class Board {
         }
         return -1;
     }
-    public void notifyClick(int mx, int my) {
+    public boolean notifyClick(int mx, int my) {
         int id = getGridClicked(mx, my);
-        if (id == -1) return;
+        if (id == -1) return false;
         
         // If the click is on the enemy board size
         if (id >= size*size && start) {
             
             // Adjust cell id down
             id -= size*size;
-            System.out.println("Shot at : " + id);
+            System.out.println("Player shot at : " + id);
             this.shootAndRecord(id);
+            
+            // Shot has been made, return true.
+            return true;
             
         } else if (id < 100) {
             // place boat
             System.out.println("Player grid click: " + id);
         }
+        return false;
+    }
+    public float[] getShotForTraining(int mx, int my) {
+        int id = getGridClicked(mx, my);
+        
+        float[] shot = new float[size*size];
+        
+        // -100 to adjust for ID
+        shot[id - 100] = 1.0f;
+        
+        System.out.println("shot length: " + shot.length);
+        return shot;
     }
         
     public void notifyStart() { this.start = true; }
@@ -295,6 +312,30 @@ public class Board {
     
     public java.awt.image.BufferedImage writeToImage(java.awt.image.BufferedImage image, float time) { 
         return this.calculateBackground(image, time); 
+    }
+    public java.awt.image.BufferedImage writeHits(java.awt.image.BufferedImage image) {
+        java.awt.Graphics2D g = image.createGraphics();
+        
+        for (int x = 0; size > x; x++) for (int y = 0; size > y; y++) {
+            if (shotsGrid[x][y] == Board.HIT) {
+                int dx = x * cellSize + leftStartX;
+                int dy = y * cellSize + startY;
+
+                g.setColor(new java.awt.Color(200,0,0,128));
+                
+                g.fillRect(dx, dy, cellSize, cellSize);
+            } else if (shotsGrid[x][y] == Board.MISS) {
+                int dx = x * cellSize + leftStartX;
+                int dy = y * cellSize + startY;
+
+                g.setColor(new java.awt.Color(255,255,255,128));
+                
+                g.fillRect(dx, dy, cellSize, cellSize);
+            }
+        }
+        
+        g.dispose();
+        return image;
     }
     
     public class Ship {

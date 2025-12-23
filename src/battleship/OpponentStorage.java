@@ -29,6 +29,7 @@ public class OpponentStorage {
             ML.MLP.Layer currentLayer = null;
             java.util.List<float[]> weightRows = null;
             float[] biases = null;
+            ML.AI.Activation activation = null;
 
             while ((line = br.readLine()) != null) {
                 line = line.trim();
@@ -43,6 +44,17 @@ public class OpponentStorage {
                     // Empty layer and new weight rows.
                     currentLayer = new ML.MLP.Layer();
                     weightRows = new java.util.ArrayList<>();
+                }
+                
+                else if (line.startsWith("Activation")) {
+                    String a = line.split(",")[1];
+                    switch (a) {
+                        case "ReLU"         -> activation = ML.AI.Activation.RELU;
+                        case "Leaky ReLU"   -> activation = ML.AI.Activation.LEAKY_RELU;
+                        case "Soft Sign"    -> activation = ML.AI.Activation.SOFT_SIGN;
+                            
+                    }
+                    currentLayer.setActivationFunc(activation);
                 }
 
                 else if (line.equals("weights,")) {
@@ -75,7 +87,7 @@ public class OpponentStorage {
             }
         }
         // Make the brain and use it for the opponent.
-        ML.MLP brain = new ML.MLP(0.05f, layers.toArray(new ML.MLP.Layer[0]));
+        ML.MLP brain = new ML.MLP(BattleShip.LEARNING_RATE, layers.toArray(new ML.MLP.Layer[0]));
         return new Opponent(brain, name);
     }
 
