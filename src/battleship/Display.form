@@ -44,7 +44,7 @@
   <SubComponents>
     <Container class="battleship.BattleShip" name="battleShip">
       <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="battleShipMouseClicked"/>
+        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="battleShipMouseReleased"/>
       </Events>
 
       <Layout>

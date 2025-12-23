@@ -43,15 +43,34 @@ public class Board {
         leftStartX = (int) (BattleShip.width * 0.01f);
         rightStartX = BattleShip.width - gridSize - (leftStartX);
         startY = (BattleShip.height - gridSize) / 2;
-
-
     }
     
-    public java.awt.Point getGridClicked(int x, int y) {
-        return null;
+    public int getGridClicked(int mx, int my) {
+        // Our grid
+        if (mx >= leftStartX && mx < leftStartX + gridSize &&
+            my >= startY     && my < startY + gridSize) {
+
+            int col = (mx - leftStartX) / cellSize;
+            int row = (my - startY) / cellSize;
+
+            // Return cell ID.
+            return row * size + col;
+        }
+
+        // Enemy grid
+        else if (mx >= rightStartX && mx < rightStartX + gridSize &&
+            my >= startY      && my < startY + gridSize) {
+
+            int col = (mx - rightStartX) / cellSize;
+            int row = (my - startY) / cellSize;
+
+            // Return cell ID.
+            return row * size + col + (size*size);
+        }
+        return -1;
     }
 
-    private java.awt.image.BufferedImage calculateBackground(java.awt.image.BufferedImage image, int time) {       
+    private java.awt.image.BufferedImage calculateBackground(java.awt.image.BufferedImage image, float time) {       
         for (int x = 0; BattleShip.width > x; x++) for (int y = 0; BattleShip.height > y; y++) {
                         
             // Offset x and y and scale them down.
@@ -122,7 +141,7 @@ public class Board {
         }
     }
 
-    public java.awt.image.BufferedImage writeToImage(java.awt.image.BufferedImage image, int time) { 
+    public java.awt.image.BufferedImage writeToImage(java.awt.image.BufferedImage image, float time) { 
         return this.calculateBackground(image, time); 
     }
 }

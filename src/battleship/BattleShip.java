@@ -17,17 +17,23 @@ public class BattleShip extends javax.swing.JPanel {
         // The players & opponents boards.
         playerBoard = new Board(boardSize);
         opponentBoard = new Board(boardSize);
-        
+                
         // The opponent himself.
-        op = new Opponent(boardSize*boardSize);
+        op = new Opponent(size*size);
         
-        this.displayBoards(0);
+        this.displayBoards(-100);
     }
     
-    public void displayBoards(int time) {
+    public void displayBoards(float time) {
         image = playerBoard.writeToImage(image, time);
         repaint();
     }
+    
+    public void playerClick(int x, int y) {
+        int id = playerBoard.getGridClicked(x, y);
+    }
+    
+    public void printOpponent() { System.out.println(op.toString()); }
        
     public void imageSizer() { image = new java.awt.image.BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_ARGB); }
     @Override public void paintComponent(java.awt.Graphics g){ super.paintComponent(g); g.drawImage(image, 0, 0, getWidth(), getHeight(), null); }
