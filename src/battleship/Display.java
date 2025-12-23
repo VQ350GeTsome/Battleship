@@ -309,7 +309,7 @@ public class Display extends javax.swing.JFrame {
     }//GEN-LAST:event_shuffleBoatsButtonActionPerformed
 
     private void resetBoatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBoatsButtonActionPerformed
-        
+        battleShip.resetPlayerBoard();
     }//GEN-LAST:event_resetBoatsButtonActionPerformed
 
     /**

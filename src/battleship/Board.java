@@ -48,16 +48,16 @@ public class Board {
         rightStartX = BattleShip.width - gridSize - (leftStartX);
         startY = (BattleShip.height - gridSize) / 2;
         
-        // Initalize both grids so everything is 0.
-        this.clearBoats();
-        for (int i = 0; shotsGrid.length > i; i++) for (int j = 0; shotsGrid[0].length > j; j++) shotsGrid[i][j] = 0;
-        
         // Classic ships from the board game.
         ships[4] = new Ship("Carrier",      5, CARRIER);
         ships[3] = new Ship("Battleship",   4, BATTLESHIP);
         ships[2] = new Ship("Destroyer",    3, DESTORYER);
         ships[1] = new Ship("Submarine",    3, SUBMARINE);
         ships[0] = new Ship("Patrol",       2, PATROL);
+        
+        // Initalize both grids so everything is 0.
+        this.clearBoats();
+        for (int i = 0; shotsGrid.length > i; i++) for (int j = 0; shotsGrid[0].length > j; j++) shotsGrid[i][j] = 0;
     }
     
     public int getGridClicked(int mx, int my) {
@@ -121,7 +121,13 @@ public class Board {
         }
         return true;
     }
-    public void shuffleBoats() { this.clearBoats(); for (Ship s : ships) this.placeShipRandomly(s); }
+    public void shuffleBoats() { 
+        this.clearBoats(); 
+        for (Ship s : ships) {
+            this.placeShipRandomly(s);
+            s.placed = true;
+        } 
+    }
     private void placeShipRandomly(Ship ship) {
         java.util.Random r = new java.util.Random();
 
@@ -149,8 +155,12 @@ public class Board {
     }
     public void clearBoats() {
         for (int i = 0; shipsGrid.length > i; i++) for (int j = 0; shipsGrid[0].length > j; j++) shipsGrid[i][j] = 0;
+        for (Ship s : ships) s.placed = false;
     }
-
+    public boolean areShipsPlaced() {
+        for (Ship s : ships) if (!s.placed) return false;
+        return true;
+    }
 
     private java.awt.image.BufferedImage calculateBackground(java.awt.image.BufferedImage image, float time) {       
         for (int x = 0; BattleShip.width > x; x++) for (int y = 0; BattleShip.height > y; y++) {
@@ -205,6 +215,9 @@ public class Board {
         drawGrid(g, rightStartX, startY, size, cellSize);
         drawGrid(g, leftStartX, startY, size, cellSize);
         
+        drawShips(g);
+        drawShots(g);
+        
         g.dispose();
         
         return image;
@@ -221,7 +234,21 @@ public class Board {
                        startX + gridSize, startY + i * cellSize);
         }
     }
+    private void drawShips(java.awt.Graphics2D g) {
+        g.setColor(new java.awt.Color(192,0,64,128));
+        for (int x = 0; size > x; x++) for (int y = 0; size > y; y++) {
+            if (shipsGrid[x][y] > 0) {
+                int dx = x * cellSize + leftStartX;
+                int dy = y * cellSize + startY;
 
+                g.fillRect(dx, dy, cellSize, cellSize);
+            }
+        }
+    }
+    private void drawShots(java.awt.Graphics2D g) {
+        
+    }
+    
     public java.awt.image.BufferedImage writeToImage(java.awt.image.BufferedImage image, float time) { 
         return this.calculateBackground(image, time); 
     }
@@ -229,7 +256,7 @@ public class Board {
     public class Ship {
         public String name;
         public int length, startX, startY, id;
-        public boolean horizontal;
+        public boolean horizontal, placed;
         public java.util.List<java.awt.Point> cells = new java.util.ArrayList<>();
 
         public Ship(String name, int length, int id) {

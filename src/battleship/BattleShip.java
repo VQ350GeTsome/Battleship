@@ -18,7 +18,6 @@ public class BattleShip extends javax.swing.JPanel {
         playerBoard = new Board(boardSize);
         opponentBoard = new Board(boardSize);
         opponentBoard.shuffleBoats();
-        System.out.println(opponentBoard.toString());
                 
         // The opponent himself.
         //op = new Opponent(boardSize*boardSize, "In-Training");
@@ -38,9 +37,10 @@ public class BattleShip extends javax.swing.JPanel {
     }
     
     public boolean arePlayerShipsPlaced() {
-        return false;
+        return playerBoard.areShipsPlaced();
     }
     public void shufflePlayerBoard() { playerBoard.shuffleBoats(); }
+    public void resetPlayerBoard() { playerBoard.clearBoats(); }
     
     public void placing(int shipID) {
         playerBoard.notifyPlacing(shipID);
