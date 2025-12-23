@@ -11,18 +11,22 @@ public class Board {
 
     // The two grids.
     private final int[][] shipsGrid, shotsGrid;
+    private final Ship[] ships = new Ship[5];
     
     // Perlin Noise fields.
-    private int xAdj, yAdj;
-    private float scaleX, scaleY, waterRange, waterRangeStart;
+    private final int xAdj, yAdj;
+    private final float scaleX, scaleY, waterRange, waterRangeStart;
     
     // Grid fields.
-    private int cellSize, gridSize, leftStartX, rightStartX, startY;
+    private final int cellSize, gridSize, leftStartX, rightStartX, startY;
     
     // For our shots grid
     public static final int HIT = 1, MISS = -1, EMPTY = 0,
     // For our ships grid
-            CARRIER = 5, BATTLESHIP = 4, DESTROYER = 3, SUBMARINE = 2, PARTOL = 1;
+    CARRIER = 5, BATTLESHIP = 4, DESTORYER = 3, SUBMARINE = 2, PATROL = 1;
+    
+    private static boolean placing = true;
+    private int shipPlacing;
     
     public Board(int size) {
         this.size = size;
@@ -43,6 +47,17 @@ public class Board {
         leftStartX = (int) (BattleShip.width * 0.01f);
         rightStartX = BattleShip.width - gridSize - (leftStartX);
         startY = (BattleShip.height - gridSize) / 2;
+        
+        // Initalize both grids so everything is 0.
+        this.clearBoats();
+        for (int i = 0; shotsGrid.length > i; i++) for (int j = 0; shotsGrid[0].length > j; j++) shotsGrid[i][j] = 0;
+        
+        // Classic ships from the board game.
+        ships[4] = new Ship("Carrier",      5, CARRIER);
+        ships[3] = new Ship("Battleship",   4, BATTLESHIP);
+        ships[2] = new Ship("Destroyer",    3, DESTORYER);
+        ships[1] = new Ship("Submarine",    3, SUBMARINE);
+        ships[0] = new Ship("Patrol",       2, PATROL);
     }
     
     public int getGridClicked(int mx, int my) {
@@ -69,6 +84,73 @@ public class Board {
         }
         return -1;
     }
+        
+    public void notifyStart() {
+        this.placing = false;
+    }
+    public void notifyPlacing(int shipID) { this.shipPlacing = shipID; }
+
+    public boolean placeShip(int id, boolean horizontal, Ship ship) {
+        
+        if (id > size * size) return false;
+        
+        int x = id % size, y = id / size;
+        
+        // Check bounds
+        if (horizontal && x + ship.length > size)
+            return false;
+
+        if (!horizontal && y + ship.length > size)
+            return false;
+
+        // Check collision
+        for (int i = 0; i < ship.length; i++) {
+            int cx = horizontal ? x + i : x;
+            int cy = horizontal ? y : y + i;
+
+            if (shipsGrid[cy][cx] != 0)
+                return false;
+        }
+
+        // Place ship
+        for (int i = 0; i < ship.length; i++) {
+            int cx = horizontal ? x + i : x;
+            int cy = horizontal ? y : y + i;
+
+            shipsGrid[cy][cx] = ship.id; // or ship ID
+        }
+        return true;
+    }
+    public void shuffleBoats() { this.clearBoats(); for (Ship s : ships) this.placeShipRandomly(s); }
+    private void placeShipRandomly(Ship ship) {
+        java.util.Random r = new java.util.Random();
+
+        while (true) {
+            int id = r.nextInt(size * size);
+            boolean horizontal = r.nextBoolean();
+
+            if (placeShip(id, horizontal, ship)) {
+                // Update ship data
+                ship.startX = id % size;
+                ship.startY = id / size;
+                ship.horizontal = horizontal;
+
+                // Update the cells the ship is contained in.
+                ship.cells.clear();
+                for (int i = 0; i < ship.length; i++) {
+                    int cx = horizontal ? ship.startX + i : ship.startX;
+                    int cy = horizontal ? ship.startY : ship.startY + i;
+                    ship.cells.add(new java.awt.Point(cx, cy));
+                }
+
+                break; 
+            }
+        }
+    }
+    public void clearBoats() {
+        for (int i = 0; shipsGrid.length > i; i++) for (int j = 0; shipsGrid[0].length > j; j++) shipsGrid[i][j] = 0;
+    }
+
 
     private java.awt.image.BufferedImage calculateBackground(java.awt.image.BufferedImage image, float time) {       
         for (int x = 0; BattleShip.width > x; x++) for (int y = 0; BattleShip.height > y; y++) {
@@ -128,7 +210,6 @@ public class Board {
         return image;
     }
     private void drawGrid(java.awt.Graphics2D g, int startX, int startY, int size, int cellSize) {
-        int gridSize = size * cellSize;
 
         for (int i = 0; i <= size; i++) {
             // vertical lines
@@ -144,4 +225,39 @@ public class Board {
     public java.awt.image.BufferedImage writeToImage(java.awt.image.BufferedImage image, float time) { 
         return this.calculateBackground(image, time); 
     }
+    
+    public class Ship {
+        public String name;
+        public int length, startX, startY, id;
+        public boolean horizontal;
+        public java.util.List<java.awt.Point> cells = new java.util.ArrayList<>();
+
+        public Ship(String name, int length, int id) {
+            this.name = name; this.length = length; this.id = id;
+        }
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        
+        sb.append("Ships Grid:\n");
+        for (int[] row : shipsGrid) {
+            for (int shipID : row) {
+                sb.append("\t").append(shipID);
+            }
+            sb.append("\n");
+        }
+        
+        sb.append("\n").append("Shots Grid:\n");
+        for (int[] row : shotsGrid) {
+            for (int shot : row) {
+                sb.append("\t").append(shot);
+            }
+            sb.append("\n");
+        }
+        
+        return sb.toString();
+    }
+
 }

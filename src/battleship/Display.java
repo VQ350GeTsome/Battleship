@@ -139,6 +139,11 @@ public class Display extends javax.swing.JFrame {
         shuffleBoatsButton.setText("Shuffle Boats");
         shuffleBoatsButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
         shuffleBoatsButton.setFocusable(false);
+        shuffleBoatsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shuffleBoatsButtonActionPerformed(evt);
+            }
+        });
 
         resetCarrierButton.setText("Reset Carrier");
         resetCarrierButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
@@ -165,10 +170,20 @@ public class Display extends javax.swing.JFrame {
         resetSubmarineButton.setText("Reset Submarine");
         resetSubmarineButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
         resetSubmarineButton.setFocusable(false);
+        resetSubmarineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetSubmarineButtonActionPerformed(evt);
+            }
+        });
 
         resetPatrolButton.setText("Reset Patrol");
         resetPatrolButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
         resetPatrolButton.setFocusable(false);
+        resetPatrolButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetPatrolButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -254,36 +269,48 @@ public class Display extends javax.swing.JFrame {
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void battleshipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_battleshipButtonActionPerformed
-        battleShip.placing(Board.BATTLESHIP);
+        //battleShip.placing(Board.BATTLESHIP);
     }//GEN-LAST:event_battleshipButtonActionPerformed
 
     private void destroyerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destroyerButtonActionPerformed
-        battleShip.placing(Board.DESTROYER);
+        //battleShip.placing(Board.DESTROYER);
     }//GEN-LAST:event_destroyerButtonActionPerformed
 
     private void patrolButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patrolButtonActionPerformed
-        battleShip.placing(Board.PARTOL);
+        //battleShip.placing(Board.PARTOL);
     }//GEN-LAST:event_patrolButtonActionPerformed
 
     private void carrierButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carrierButtonActionPerformed
-        battleShip.placing(Board.CARRIER);
+        //battleShip.placing(Board.CARRIER);
     }//GEN-LAST:event_carrierButtonActionPerformed
 
     private void submarineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submarineButtonActionPerformed
-        battleShip.placing(Board.SUBMARINE);
+        //battleShip.placing(Board.SUBMARINE);
     }//GEN-LAST:event_submarineButtonActionPerformed
 
-    private void resetBoatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBoatsButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_resetBoatsButtonActionPerformed
-
     private void resetCarrierButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetCarrierButtonActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_resetCarrierButtonActionPerformed
 
     private void resetBattleshipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBattleshipButtonActionPerformed
-        // TODO add your handling code here:
+     
     }//GEN-LAST:event_resetBattleshipButtonActionPerformed
+
+    private void resetSubmarineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetSubmarineButtonActionPerformed
+
+    }//GEN-LAST:event_resetSubmarineButtonActionPerformed
+
+    private void resetPatrolButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPatrolButtonActionPerformed
+       
+    }//GEN-LAST:event_resetPatrolButtonActionPerformed
+
+    private void shuffleBoatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shuffleBoatsButtonActionPerformed
+        battleShip.shufflePlayerBoard();
+    }//GEN-LAST:event_shuffleBoatsButtonActionPerformed
+
+    private void resetBoatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBoatsButtonActionPerformed
+        
+    }//GEN-LAST:event_resetBoatsButtonActionPerformed
 
     /**
      * @param args the command line arguments
