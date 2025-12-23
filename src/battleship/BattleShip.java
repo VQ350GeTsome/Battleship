@@ -25,18 +25,30 @@ public class BattleShip extends javax.swing.JPanel {
         
         this.displayBoards(-100);
     }
+
+    public void playerClick(int x, int y) {
+        int id = playerBoard.getGridClicked(x, y);
+    }
+    
+    public void startGame() {
+        
+    }
+    
+    public boolean arePlayerShipsPlaced() {
+        return false;
+    }
+    
+    public void placing(int shipID) {
+        
+    }
+    
+    public void saveOpponent() { OpponentStorage.saveOpponent(op); }
+    public void printOpponent() { System.out.println(op.toString()); }
     
     public void displayBoards(float time) {
         image = playerBoard.writeToImage(image, time);
         repaint();
     }
-    
-    public void playerClick(int x, int y) {
-        int id = playerBoard.getGridClicked(x, y);
-    }
-    
-    public void saveOpponent() { OpponentStorage.saveOpponent(op); }
-    public void printOpponent() { System.out.println(op.toString()); }
        
     public void imageSizer() { image = new java.awt.image.BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_ARGB); }
     @Override public void paintComponent(java.awt.Graphics g){ super.paintComponent(g); g.drawImage(image, 0, 0, getWidth(), getHeight(), null); }

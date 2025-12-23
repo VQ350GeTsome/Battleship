@@ -35,6 +35,19 @@ public class Display extends javax.swing.JFrame {
     private void initComponents() {
 
         battleShip = new battleship.BattleShip();
+        startButton = new javax.swing.JButton();
+        carrierButton = new javax.swing.JButton();
+        battleshipButton = new javax.swing.JButton();
+        destroyerButton = new javax.swing.JButton();
+        submarineButton = new javax.swing.JButton();
+        patrolButton = new javax.swing.JButton();
+        resetBoatsButton = new javax.swing.JButton();
+        shuffleBoatsButton = new javax.swing.JButton();
+        resetCarrierButton = new javax.swing.JButton();
+        resetBattleshipButton = new javax.swing.JButton();
+        resetDestroyerButton = new javax.swing.JButton();
+        resetSubmarineButton = new javax.swing.JButton();
+        resetPatrolButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addKeyListener(new java.awt.event.KeyAdapter() {
@@ -60,6 +73,103 @@ public class Display extends javax.swing.JFrame {
             .addGap(0, 750, Short.MAX_VALUE)
         );
 
+        startButton.setText("Start");
+        startButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        startButton.setFocusable(false);
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtonActionPerformed(evt);
+            }
+        });
+
+        carrierButton.setText("Place Carrier");
+        carrierButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        carrierButton.setFocusable(false);
+        carrierButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                carrierButtonActionPerformed(evt);
+            }
+        });
+
+        battleshipButton.setText("Place Battleship");
+        battleshipButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        battleshipButton.setFocusable(false);
+        battleshipButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                battleshipButtonActionPerformed(evt);
+            }
+        });
+
+        destroyerButton.setText("Place Destroyer");
+        destroyerButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        destroyerButton.setFocusable(false);
+        destroyerButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                destroyerButtonActionPerformed(evt);
+            }
+        });
+
+        submarineButton.setText("Place Submarine");
+        submarineButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        submarineButton.setFocusable(false);
+        submarineButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submarineButtonActionPerformed(evt);
+            }
+        });
+
+        patrolButton.setText("Place Patrol");
+        patrolButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        patrolButton.setFocusable(false);
+        patrolButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                patrolButtonActionPerformed(evt);
+            }
+        });
+
+        resetBoatsButton.setText("Reset All Boats");
+        resetBoatsButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        resetBoatsButton.setFocusable(false);
+        resetBoatsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBoatsButtonActionPerformed(evt);
+            }
+        });
+
+        shuffleBoatsButton.setText("Shuffle Boats");
+        shuffleBoatsButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        shuffleBoatsButton.setFocusable(false);
+
+        resetCarrierButton.setText("Reset Carrier");
+        resetCarrierButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        resetCarrierButton.setFocusable(false);
+        resetCarrierButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetCarrierButtonActionPerformed(evt);
+            }
+        });
+
+        resetBattleshipButton.setText("Reset Battleship");
+        resetBattleshipButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        resetBattleshipButton.setFocusable(false);
+        resetBattleshipButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                resetBattleshipButtonActionPerformed(evt);
+            }
+        });
+
+        resetDestroyerButton.setText("Reset Destroyer");
+        resetDestroyerButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        resetDestroyerButton.setFocusable(false);
+
+        resetSubmarineButton.setText("Reset Submarine");
+        resetSubmarineButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        resetSubmarineButton.setFocusable(false);
+
+        resetPatrolButton.setText("Reset Patrol");
+        resetPatrolButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(204, 204, 204), new java.awt.Color(153, 153, 153), new java.awt.Color(153, 153, 153), new java.awt.Color(102, 102, 102)));
+        resetPatrolButton.setFocusable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -67,12 +177,56 @@ public class Display extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(battleShip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(destroyerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(battleshipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(patrolButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(submarineButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(carrierButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(resetCarrierButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resetBattleshipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resetDestroyerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resetSubmarineButton, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                    .addComponent(resetPatrolButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(startButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resetBoatsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                    .addComponent(shuffleBoatsButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(battleShip, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 250, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(carrierButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resetCarrierButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(resetBoatsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(shuffleBoatsButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(battleshipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resetBattleshipButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(resetDestroyerButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(destroyerButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(submarineButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(resetSubmarineButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(startButton, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
+                    .addComponent(patrolButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(resetPatrolButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
 
         pack();
@@ -89,6 +243,48 @@ public class Display extends javax.swing.JFrame {
         battleShip.playerClick(evt.getX(), evt.getY());
     }//GEN-LAST:event_battleShipMouseReleased
 
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        if (battleShip.arePlayerShipsPlaced()) {
+            startButton.setText("Started");
+            startButton.setEnabled(false);
+            battleShip.startGame();
+        } else {
+            startButton.setText("Place Ships !!!");
+        }
+    }//GEN-LAST:event_startButtonActionPerformed
+
+    private void battleshipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_battleshipButtonActionPerformed
+        battleShip.placing(Board.BATTLESHIP);
+    }//GEN-LAST:event_battleshipButtonActionPerformed
+
+    private void destroyerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_destroyerButtonActionPerformed
+        battleShip.placing(Board.DESTROYER);
+    }//GEN-LAST:event_destroyerButtonActionPerformed
+
+    private void patrolButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_patrolButtonActionPerformed
+        battleShip.placing(Board.PARTOL);
+    }//GEN-LAST:event_patrolButtonActionPerformed
+
+    private void carrierButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_carrierButtonActionPerformed
+        battleShip.placing(Board.CARRIER);
+    }//GEN-LAST:event_carrierButtonActionPerformed
+
+    private void submarineButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submarineButtonActionPerformed
+        battleShip.placing(Board.SUBMARINE);
+    }//GEN-LAST:event_submarineButtonActionPerformed
+
+    private void resetBoatsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBoatsButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resetBoatsButtonActionPerformed
+
+    private void resetCarrierButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetCarrierButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resetCarrierButtonActionPerformed
+
+    private void resetBattleshipButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetBattleshipButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_resetBattleshipButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -100,7 +296,7 @@ public class Display extends javax.swing.JFrame {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Windows Classic".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
@@ -126,5 +322,18 @@ public class Display extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private battleship.BattleShip battleShip;
+    private javax.swing.JButton battleshipButton;
+    private javax.swing.JButton carrierButton;
+    private javax.swing.JButton destroyerButton;
+    private javax.swing.JButton patrolButton;
+    private javax.swing.JButton resetBattleshipButton;
+    private javax.swing.JButton resetBoatsButton;
+    private javax.swing.JButton resetCarrierButton;
+    private javax.swing.JButton resetDestroyerButton;
+    private javax.swing.JButton resetPatrolButton;
+    private javax.swing.JButton resetSubmarineButton;
+    private javax.swing.JButton shuffleBoatsButton;
+    private javax.swing.JButton startButton;
+    private javax.swing.JButton submarineButton;
     // End of variables declaration//GEN-END:variables
 }

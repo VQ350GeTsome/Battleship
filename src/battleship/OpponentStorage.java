@@ -67,14 +67,14 @@ public class OpponentStorage {
                 }
             }
 
-            // Add last layer
+            // Add last layer.
             if (currentLayer != null) {
                 currentLayer.setWeightMatrix(weightRows.toArray(new float[0][]));
                 currentLayer.setBiasVector(biases);
                 layers.add(currentLayer);
             }
         }
-        // Make the brain and use it for the opponent
+        // Make the brain and use it for the opponent.
         ML.MLP brain = new ML.MLP(0.05f, layers.toArray(new ML.MLP.Layer[0]));
         return new Opponent(brain, name);
     }

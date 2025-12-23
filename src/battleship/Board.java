@@ -22,7 +22,7 @@ public class Board {
     // For our shots grid
     public static final int HIT = 1, MISS = -1, EMPTY = 0,
     // For our ships grid
-            CARRIER = 5;
+            CARRIER = 5, BATTLESHIP = 4, DESTROYER = 3, SUBMARINE = 2, PARTOL = 1;
     
     public Board(int size) {
         this.size = size;
