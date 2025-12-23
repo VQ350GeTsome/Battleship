@@ -8,7 +8,7 @@ public class BattleShip extends javax.swing.JPanel {
     
     private final int boardSize = 10;
     private final Board playerBoard, opponentBoard;
-    private final Opponent op;
+    private Opponent op;
     
     public BattleShip() {
         // Init image.
@@ -19,7 +19,9 @@ public class BattleShip extends javax.swing.JPanel {
         opponentBoard = new Board(boardSize);
                 
         // The opponent himself.
-        op = new Opponent(size*size);
+        //op = new Opponent(boardSize*boardSize, "In-Training");
+        try { op = OpponentStorage.loadOpponent("In-Training"); }
+        catch (Exception e) { System.err.println(e.getMessage()); }
         
         this.displayBoards(-100);
     }
@@ -33,6 +35,7 @@ public class BattleShip extends javax.swing.JPanel {
         int id = playerBoard.getGridClicked(x, y);
     }
     
+    public void saveOpponent() { OpponentStorage.saveOpponent(op); }
     public void printOpponent() { System.out.println(op.toString()); }
        
     public void imageSizer() { image = new java.awt.image.BufferedImage(width, height, java.awt.image.BufferedImage.TYPE_INT_ARGB); }
