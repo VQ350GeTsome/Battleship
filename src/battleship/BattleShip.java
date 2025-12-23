@@ -4,7 +4,7 @@ public class BattleShip extends javax.swing.JPanel {
     
     // Image and dimensions.
     private java.awt.image.BufferedImage image;
-    public static final int width = 1000, height = 1000;
+    public static final int width = 1500, height = 750;
     
     private final int boardSize = 10;
     private final Board playerBoard, opponentBoard;

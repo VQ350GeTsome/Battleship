@@ -12,12 +12,12 @@ public class Board {
     // The two grids.
     private final int[][] shipsGrid, shotsGrid;
     
-    // Ocean Perlin Noise fields.
+    // Perlin Noise fields.
     private int xAdj, yAdj;
     private float scaleX, scaleY, waterRange, waterRangeStart;
     
     // Grid fields.
-    private int cellSize, gridSize, startX, startY;
+    private int cellSize, gridSize, leftStartX, rightStartX, startY;
     
     // For our shots grid
     public static final int HIT = 1, MISS = -1, EMPTY = 0,
@@ -29,33 +29,30 @@ public class Board {
         this.shipsGrid = new int[size][size];
         this.shotsGrid = new int[size][size];
         
-        // Fill ocean perlin fields.
+        // Fill perlin fields.
         xAdj = (int) (Math.random() * 10000);
         yAdj = (int) (Math.random() * 10000);
         scaleX = 0.025f;
-        scaleY = scaleX / 2;
+        scaleY = scaleX;
         waterRange = 0.1f;
         waterRangeStart = 0.3f;
         
         // Fill grid fields.
-        cellSize = (int) (BattleShip.height * 0.095f);
+        cellSize = (int) (Math.min(BattleShip.width, BattleShip.height) * 0.095f);
         gridSize = size * cellSize;
-        startX = (BattleShip.width  - gridSize) / 2;
+        leftStartX = (int) (BattleShip.width * 0.01f);
+        rightStartX = BattleShip.width - gridSize - (leftStartX);
         startY = (BattleShip.height - gridSize) / 2;
+
+
     }
     
     public java.awt.Point getGridClicked(int x, int y) {
-
-        // Check if click is outside the grid if it is return null.
-        if (x < startX || x > startX + gridSize || y < startY || y > startY + gridSize) return null;
-
-        int gx = (x - startX) / cellSize, gy = (y - startY) / cellSize;
-
-        return new java.awt.Point(gx, gy);
+        return null;
     }
 
-    private java.awt.image.BufferedImage calculateImage(java.awt.image.BufferedImage image, int time) {       
-        for (int x = 0; BattleShip.width > x; x++) for (int y = 0; BattleShip.width > y; y++) {
+    private java.awt.image.BufferedImage calculateBackground(java.awt.image.BufferedImage image, int time) {       
+        for (int x = 0; BattleShip.width > x; x++) for (int y = 0; BattleShip.height > y; y++) {
                         
             // Offset x and y and scale them down.
             float nx = (x + xAdj) * scaleX, ny = (y + yAdj) * scaleY;
@@ -78,9 +75,9 @@ public class Board {
             float dx = ((float) x / (float) BattleShip.height);
             
             // Darken bottom.
-            float darken = dy * 0.4f;
+            float darken = dy * 0.5f;
             // Lighten top right corner.
-            float lighten = ((float) (dx + 1-dy) / 2.0f) * 0.5f;
+            float lighten = ((float) (dx + 1-dy) / 2.0f) * 0.35f;
             
             // Use time to make the water move.
             float localSpeed = (float) (perlin.noise(nx * 0.3, ny * 0.3) * 0.5 + 0.5); 
@@ -104,7 +101,17 @@ public class Board {
         
         g.setColor(new java.awt.Color(0, 0, 0, 128));
         
-        for (int i = 0; size >= i; i++) {
+        drawGrid(g, rightStartX, startY, size, cellSize);
+        drawGrid(g, leftStartX, startY, size, cellSize);
+        
+        g.dispose();
+        
+        return image;
+    }
+    private void drawGrid(java.awt.Graphics2D g, int startX, int startY, int size, int cellSize) {
+        int gridSize = size * cellSize;
+
+        for (int i = 0; i <= size; i++) {
             // vertical lines
             g.drawLine(startX + i * cellSize, startY,
                        startX + i * cellSize, startY + gridSize);
@@ -113,12 +120,9 @@ public class Board {
             g.drawLine(startX, startY + i * cellSize,
                        startX + gridSize, startY + i * cellSize);
         }
-        g.dispose();
-        
-        return image;
     }
+
     public java.awt.image.BufferedImage writeToImage(java.awt.image.BufferedImage image, int time) { 
-        return this.calculateImage(image, time); 
+        return this.calculateBackground(image, time); 
     }
 }
-
