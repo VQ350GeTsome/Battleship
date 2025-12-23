@@ -18,6 +18,10 @@ public class BattleShip extends javax.swing.JPanel {
         playerBoard = new Board(boardSize);
         opponentBoard = new Board(boardSize);
         opponentBoard.shuffleBoats();
+        
+        // Link the two boards
+        playerBoard.linkBoard(opponentBoard);
+        opponentBoard.linkBoard(playerBoard);
                 
         // The opponent himself.
         //op = new Opponent(boardSize*boardSize, "In-Training");
@@ -28,24 +32,21 @@ public class BattleShip extends javax.swing.JPanel {
     }
 
     public void playerClick(int x, int y) {
-        int id = playerBoard.getGridClicked(x, y);
+        playerBoard.notifyClick(x, y);
     }
     
     public void startGame() {
         playerBoard.notifyStart();
         opponentBoard.notifyStart();
     }
+    public boolean hasGameStarted() { return playerBoard.hasGameStarted(); }
     
     public boolean arePlayerShipsPlaced() {
         return playerBoard.areShipsPlaced();
     }
     public void shufflePlayerBoard() { playerBoard.shuffleBoats(); }
     public void resetPlayerBoard() { playerBoard.clearBoats(); }
-    
-    public void placing(int shipID) {
-        playerBoard.notifyPlacing(shipID);
-    }
-    
+        
     public void saveOpponent() { OpponentStorage.saveOpponent(op); }
     public void printOpponent() { System.out.println(op.toString()); }
     

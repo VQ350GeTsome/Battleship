@@ -25,8 +25,9 @@ public class Board {
     // For our ships grid
     CARRIER = 5, BATTLESHIP = 4, DESTORYER = 3, SUBMARINE = 2, PATROL = 1;
     
-    private static boolean placing = true;
-    private int shipPlacing;
+    private static boolean start = false;
+    
+    private Board enemyBoard;
     
     public Board(int size) {
         this.size = size;
@@ -57,7 +58,19 @@ public class Board {
         
         // Initalize both grids so everything is 0.
         this.clearBoats();
-        for (int i = 0; shotsGrid.length > i; i++) for (int j = 0; shotsGrid[0].length > j; j++) shotsGrid[i][j] = 0;
+        for (int i = 0; shotsGrid.length > i; i++) for (int j = 0; shotsGrid[0].length > j; j++) shotsGrid[i][j] = Board.EMPTY;
+    }
+    
+    public void linkBoard(Board enemyBoard) { this.enemyBoard = enemyBoard; }
+    public int queryBoard(int x, int y) {
+        if (shipsGrid[x][y] > 0) return Board.HIT;
+        else return Board.MISS;
+    }
+    private void shootAndRecord(int id) {
+        if (id == -1) return;
+        int x = id % size, y = id / size;
+        int info = enemyBoard.queryBoard(x, y);
+        shotsGrid[x][y] = info;
     }
     
     public int getGridClicked(int mx, int my) {
@@ -84,11 +97,26 @@ public class Board {
         }
         return -1;
     }
+    public void notifyClick(int mx, int my) {
+        int id = getGridClicked(mx, my);
+        if (id == -1) return;
         
-    public void notifyStart() {
-        this.placing = false;
+        // If the click is on the enemy board size
+        if (id >= size*size && start) {
+            
+            // Adjust cell id down
+            id -= size*size;
+            System.out.println("Shot at : " + id);
+            this.shootAndRecord(id);
+            
+        } else if (id < 100) {
+            // place boat
+            System.out.println("Player grid click: " + id);
+        }
     }
-    public void notifyPlacing(int shipID) { this.shipPlacing = shipID; }
+        
+    public void notifyStart() { this.start = true; }
+    public boolean hasGameStarted() { return start; }
 
     public boolean placeShip(int id, boolean horizontal, Ship ship) {
         
@@ -154,7 +182,7 @@ public class Board {
         }
     }
     public void clearBoats() {
-        for (int i = 0; shipsGrid.length > i; i++) for (int j = 0; shipsGrid[0].length > j; j++) shipsGrid[i][j] = 0;
+        for (int i = 0; shipsGrid.length > i; i++) for (int j = 0; shipsGrid[0].length > j; j++) shipsGrid[i][j] = Board.EMPTY;
         for (Ship s : ships) s.placed = false;
     }
     public boolean areShipsPlaced() {
@@ -246,7 +274,23 @@ public class Board {
         }
     }
     private void drawShots(java.awt.Graphics2D g) {
-        
+        for (int x = 0; size > x; x++) for (int y = 0; size > y; y++) {
+            if (shotsGrid[x][y] == Board.HIT) {
+                int dx = x * cellSize + rightStartX;
+                int dy = y * cellSize + startY;
+
+                g.setColor(new java.awt.Color(200,0,0,128));
+                
+                g.fillRect(dx, dy, cellSize, cellSize);
+            } else if (shotsGrid[x][y] == Board.MISS) {
+                int dx = x * cellSize + rightStartX;
+                int dy = y * cellSize + startY;
+
+                g.setColor(new java.awt.Color(255,255,255,128));
+                
+                g.fillRect(dx, dy, cellSize, cellSize);
+            }
+        }
     }
     
     public java.awt.image.BufferedImage writeToImage(java.awt.image.BufferedImage image, float time) { 
