@@ -108,7 +108,6 @@ public class Board {
             
             // Adjust cell id down
             id -= size*size;
-            System.out.println("Player shot at : " + id);
             this.shootAndRecord(id);
             
             // Shot has been made, return true.
@@ -116,7 +115,6 @@ public class Board {
             
         } else if (id < 100) {
             // place boat
-            System.out.println("Player grid click: " + id);
         }
         return false;
     }
@@ -132,26 +130,23 @@ public class Board {
         
     public void notifyStart() { this.start = true; }
     public boolean hasGameStarted() { return start; }
-
-    public boolean placeShip(int id, boolean horizontal, Ship ship) {
+    
+    public boolean placeShipAnywhere(int id, boolean horizontal, Ship ship) {
         
         if (id > size * size) return false;
         
         int x = id % size, y = id / size;
         
         // Check bounds
-        if (horizontal && x + ship.length > size)
-            return false;
-
-        if (!horizontal && y + ship.length > size)
-            return false;
+        if (horizontal && x + ship.length > size)  return false;
+        if (!horizontal && y + ship.length > size) return false;
 
         // Check collision
         for (int i = 0; i < ship.length; i++) {
             int cx = horizontal ? x + i : x;
             int cy = horizontal ? y : y + i;
 
-            if (shipsGrid[cx][cy] != 0)
+            if (shipsGrid[cx][cy] != Board.EMPTY)
                 return false;
         }
 
@@ -160,12 +155,79 @@ public class Board {
             int cx = horizontal ? x + i : x;
             int cy = horizontal ? y : y + i;
 
-            shipsGrid[cx][cy] = ship.id; // or ship ID
+            shipsGrid[cx][cy] = ship.id;
         }
         return true;
     }
-    public void shuffleBoats() { 
+    public void shuffleBoatsAnywhere() { 
         this.clearBoats(); 
+        for (Ship s : ships) {
+            this.placeShipRandomly(s);
+            s.placed = true;
+        } 
+    }
+    private void placeShipRandomlyAnywhere(Ship ship) {
+        java.util.Random r = new java.util.Random();
+
+        while (true) {
+            int id = r.nextInt(size * size);
+            boolean horizontal = r.nextBoolean();
+
+            if (placeShip(id, horizontal, ship)) {
+                // Update ship data
+                ship.startX = id % size;
+                ship.startY = id / size;
+                ship.horizontal = horizontal;
+
+                // Update the cells the ship is contained in.
+                ship.cells.clear();
+                for (int i = 0; i < ship.length; i++) {
+                    int cx = horizontal ? ship.startX + i : ship.startX;
+                    int cy = horizontal ? ship.startY : ship.startY + i;
+                    ship.cells.add(new java.awt.Point(cx, cy));
+                }
+
+                break; 
+            }
+        }
+    }
+    
+    public boolean placeShip(int id, boolean horizontal, Ship ship) {
+        
+        if (id > size * size) return false;
+        
+        int x = id % size, y = id / size;
+        
+        // Check bounds
+        if (horizontal && x + ship.length > size)  return false;
+        if (!horizontal && y + ship.length > size) return false;
+
+        // Check collision
+        for (int i = 0; i < ship.length; i++) {
+            int cx = horizontal ? x + i : x;
+            int cy = horizontal ? y : y + i;
+
+            if (shipsGrid[cx][cy] != Board.EMPTY) return false;
+            
+            // Check neighboring cells
+            for (int dx = -1; 1 >= dx; dx++) for (int dy = -1; 1 >= dy; dy++) {
+                int nx = cx + dx, ny = cy + dy;
+                if (!checkBounds(nx, ny)) continue;
+                if (shipsGrid[nx][ny] != Board.EMPTY) return false;
+            }
+        }
+
+        // Place ship
+        for (int i = 0; i < ship.length; i++) {
+            int cx = horizontal ? x + i : x;
+            int cy = horizontal ? y : y + i;
+
+            shipsGrid[cx][cy] = ship.id;
+        }
+        return true;
+    }
+    public void shuffleBoats() {
+        this.clearBoats();
         for (Ship s : ships) {
             this.placeShipRandomly(s);
             s.placed = true;
@@ -323,6 +385,8 @@ public class Board {
             }
         }
     }
+    
+    private boolean checkBounds(int x, int y) { return !(x < 0 || y < 0 || x >= size || y >= size); }
     
     public java.awt.image.BufferedImage writeToImage(java.awt.image.BufferedImage image, float time) { 
         return this.calculateBackground(image, time); 

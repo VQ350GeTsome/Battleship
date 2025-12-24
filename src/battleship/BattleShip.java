@@ -12,6 +12,8 @@ public class BattleShip extends javax.swing.JPanel {
     
     public static final float LEARNING_RATE = 0.15f;
     
+    private static boolean start = false;
+    
     public BattleShip() {
         // Init image.
         imageSizer();
@@ -26,9 +28,8 @@ public class BattleShip extends javax.swing.JPanel {
         opponentBoard.linkBoard(playerBoard);
                 
         // The opponent himself.
-        op = new Opponent(boardSize*boardSize, "In-Training");
-        //try { op = OpponentStorage.loadOpponent("In-Training"); }
-        //catch (Exception e) { System.err.println(e.getMessage()); }
+        try { op = OpponentStorage.loadOpponent("In-Training"); }
+        catch (Exception e) { System.err.println(e.getMessage()); }
         op.linkBoard(opponentBoard);
         
         this.displayBoards(-100);
@@ -41,6 +42,8 @@ public class BattleShip extends javax.swing.JPanel {
             op.shoot(); 
             op.train(playerBoard.getShotsGrid(), playerBoard.getShotForTraining(x, y));
         }
+        
+        if (!start) return;
         
         // Check if anyone has won.
         if (playerBoard.areShipsSunk()) { 
@@ -63,14 +66,16 @@ public class BattleShip extends javax.swing.JPanel {
         }
     }
     public void resetAll() {
-        playerBoard.clear();
+        playerBoard.clearShots();
         opponentBoard.clear();
         opponentBoard.shuffleBoats();
+        start = false;
     }
     
     public void startGame() {
         playerBoard.notifyStart();
         opponentBoard.notifyStart();
+        start = true;
     }
     public boolean hasGameStarted() { return playerBoard.hasGameStarted(); }
     

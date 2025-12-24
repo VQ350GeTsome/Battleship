@@ -31,8 +31,6 @@ public class Opponent {
                 max = thought[i];
             }
         }
-        
-        System.out.println("Opponent shot at : " + idx);
         board.shootAndRecord(idx);
     }
     
