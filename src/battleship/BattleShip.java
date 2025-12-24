@@ -18,7 +18,7 @@ public class BattleShip extends javax.swing.JPanel {
         // Init image.
         imageSizer();
         
-        // The players & opponents boards.
+        // The players & opponents boardss.
         playerBoard = new Board(boardSize);
         opponentBoard = new Board(boardSize);
         opponentBoard.shuffleBoats();
@@ -86,7 +86,7 @@ public class BattleShip extends javax.swing.JPanel {
     public void resetPlayerBoard() { playerBoard.clearBoats(); }
         
     public void saveOpponent() { System.out.println("Saving Opponent..."); OpponentStorage.saveOpponent(op); }
-    public void printOpponent() { System.out.println(op.toString()); }
+    public void printOpponent() { System.out.println(op.toCSV()); }
     
     public void displayBoards(float time) {
         image = playerBoard.writeToImage(image, time);

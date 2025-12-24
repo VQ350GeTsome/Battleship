@@ -2,7 +2,7 @@ package battleship;
 
 public class Display extends javax.swing.JFrame {
     
-    private float d = -100, timeMomentum = 0.25f;
+    private float d = -100, timeMomentum = 0.20f;
 
     private javax.swing.Timer timer;
     
@@ -13,7 +13,7 @@ public class Display extends javax.swing.JFrame {
     }
     
     private void initTimer() {
-        this.timer = new javax.swing.Timer(33, (java.awt.event.ActionEvent e) -> {
+        this.timer = new javax.swing.Timer(20, (java.awt.event.ActionEvent e) -> {
             battleShip.displayBoards(updateTime());
         });
     }

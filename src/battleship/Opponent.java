@@ -51,5 +51,5 @@ public class Opponent {
     
     @Override
     public String toString() { return brain.toString(); }
-    public String toCSV() { return name + ",\n" + brain.toCSV(); }
+    public String toCSV() { return name + "\n" + brain.toCSV(); }
 }

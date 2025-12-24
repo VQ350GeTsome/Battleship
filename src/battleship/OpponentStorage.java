@@ -33,49 +33,66 @@ public class OpponentStorage {
 
             while ((line = br.readLine()) != null) {
                 line = line.trim();
+                if (line.isEmpty()) continue;
 
                 if (line.startsWith("Layer")) {
-                    // Start a new layer
                     if (currentLayer != null) {
                         currentLayer.setWeightMatrix(weightRows.toArray(new float[0][]));
                         currentLayer.setBiasVector(biases);
                         layers.add(currentLayer);
                     }
-                    // Empty layer and new weight rows.
                     currentLayer = new ML.MLP.Layer();
                     weightRows = new java.util.ArrayList<>();
-                }
-                
-                else if (line.startsWith("Activation")) {
-                    String a = line.split(",")[1];
-                    switch (a) {
-                        case "ReLU"         -> activation = ML.AI.Activation.RELU;
-                        case "Leaky ReLU"   -> activation = ML.AI.Activation.LEAKY_RELU;
-                        case "Soft Sign"    -> activation = ML.AI.Activation.SOFT_SIGN;
-                            
-                    }
-                    currentLayer.setActivationFunc(activation);
+                    continue;
                 }
 
-                else if (line.equals("weights,")) {
-                    // Read weight rows until we hit "biases,".
+                if (line.startsWith("Activation")) {
+                    String[] parts = line.split(",");
+                    if (parts.length > 1) {
+                        switch (parts[1]) {
+                            case "ReLU"       -> activation = ML.AI.Activation.RELU;
+                            case "Leaky ReLU" -> activation = ML.AI.Activation.LEAKY_RELU;
+                            case "Soft Sign"  -> activation = ML.AI.Activation.SOFT_SIGN;
+                        }
+                        currentLayer.setActivationFunc(activation);
+                    }
+                    continue;
+                }
+
+                if (line.equals("weights")) {
                     while ((line = br.readLine()) != null) {
                         line = line.trim();
-                        if (line.equals("biases,")) break;
-                           
-                        // Parse row and add that to weight rows
+                        if (line.isEmpty()) continue;
+                        if (line.equals("biases")) break;
+
                         String[] parts = line.split(",");
-                        float[] row = new float[parts.length];
-                        for (int i = 0; parts.length > i; i++)
-                            row[i] = Float.parseFloat(parts[i]);
+                        java.util.List<Float> values = new java.util.ArrayList<>();
+
+                        for (String p : parts) {
+                            if (p.isEmpty()) continue;
+                            values.add(Float.parseFloat(p));
+                        }
+
+                        float[] row = new float[values.size()];
+                        for (int i = 0; i < row.length; i++) row[i] = values.get(i);
                         weightRows.add(row);
                     }
 
-                    // Parse the bias vector.
-                    line = br.readLine().trim();
-                    String[] parts = line.split(",");
-                    biases = new float[parts.length];
-                    for (int i = 0; parts.length > i; i++) biases[i] = Float.parseFloat(parts[i]);
+                    // Now read biases
+                    line = br.readLine();
+                    if (line != null) {
+                        line = line.trim();
+                        String[] parts = line.split(",");
+                        java.util.List<Float> values = new java.util.ArrayList<>();
+
+                        for (String p : parts) {
+                            if (p.isEmpty()) continue;
+                            values.add(Float.parseFloat(p));
+                        }
+
+                        biases = new float[values.size()];
+                        for (int i = 0; i < biases.length; i++) biases[i] = values.get(i);
+                    }
                 }
             }
 
