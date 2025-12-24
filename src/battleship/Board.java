@@ -25,8 +25,6 @@ public class Board {
     // For our ships grid
     CARRIER = 5, BATTLESHIP = 4, DESTORYER = 3, SUBMARINE = 2, PATROL = 1;
     
-    private static boolean start = false;
-    
     private Board enemyBoard;
     
     public Board(int size) {
@@ -68,6 +66,7 @@ public class Board {
     }
     public void shootAndRecord(int id) {
         if (id == -1) return;
+        
         int x = id % size, y = id / size;
         int info = enemyBoard.queryBoard(x, y);
         shotsGrid[x][y] = info;
@@ -103,6 +102,8 @@ public class Board {
         int id = getGridClicked(mx, my);
         if (id == -1) return false;
         
+        boolean start = BattleShip.hasGameStarted();
+        
         // If the click is on the enemy board size
         if (id >= size*size && start) {
             
@@ -113,7 +114,7 @@ public class Board {
             // Shot has been made, return true.
             return true;
             
-        } else if (id < 100) {
+        } else if (id < 100 && !start) {
             // place boat
         }
         return false;
@@ -127,10 +128,7 @@ public class Board {
         shot[id - 100] = 1.0f;
         return shot;
     }
-        
-    public void notifyStart() { this.start = true; }
-    public boolean hasGameStarted() { return start; }
-    
+      
     public boolean placeShipAnywhere(int id, boolean horizontal, Ship ship) {
         
         if (id > size * size) return false;
@@ -283,11 +281,12 @@ public class Board {
         for (Ship s : ships) s.placed = false;
     }
 
-    private java.awt.image.BufferedImage calculateBackground(java.awt.image.BufferedImage image, float time) {       
+    private java.awt.image.BufferedImage calculateBackground(java.awt.image.BufferedImage image, float w, int time) {       
         for (int x = 0; BattleShip.width > x; x++) for (int y = 0; BattleShip.height > y; y++) {
                         
             // Offset x and y and scale them down.
-            float nx = (x + xAdj) * scaleX, ny = (y + yAdj) * scaleY;
+            float t = time / 5.0f;
+            float nx = ((x + xAdj - t) * scaleX), ny = (y + yAdj - t) * scaleY;
             
             // Fractal noise.
             double n1 = perlin.noise(nx, ny),
@@ -313,7 +312,7 @@ public class Board {
             
             // Use time to make the water move.
             float localSpeed = (float) (perlin.noise(nx * 0.3, ny * 0.3) * 0.5 + 0.5); 
-            float wave = (float) (Math.sin(time * (0.1 + localSpeed * 0.3)));
+            float wave = (float) (Math.sin(w * (0.1 + localSpeed * 0.3)));
 
             // Calculate the color and blend everything.
             Vectors.vec3 hardColor = (waterRangeStart  + (wave*0.1f) < val && val < waterRange + waterRangeStart + (wave*0.1f)) ? waterLight : waterDark;
@@ -388,8 +387,8 @@ public class Board {
     
     private boolean checkBounds(int x, int y) { return !(x < 0 || y < 0 || x >= size || y >= size); }
     
-    public java.awt.image.BufferedImage writeToImage(java.awt.image.BufferedImage image, float time) { 
-        return this.calculateBackground(image, time); 
+    public java.awt.image.BufferedImage writeToImage(java.awt.image.BufferedImage image, float wave, int time) { 
+        return this.calculateBackground(image, wave, time); 
     }
     public java.awt.image.BufferedImage writeHits(java.awt.image.BufferedImage image) {
         java.awt.Graphics2D g = image.createGraphics();

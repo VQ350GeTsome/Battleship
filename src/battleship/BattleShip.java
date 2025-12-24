@@ -10,9 +10,11 @@ public class BattleShip extends javax.swing.JPanel {
     private final Board playerBoard, opponentBoard;
     private Opponent op;
     
-    public static final float LEARNING_RATE = 0.15f;
+    public static final float LEARNING_RATE = 0.0025f;
     
     private static boolean start = false;
+    
+    private BattleAlgo algo = new BattleAlgo();
     
     public BattleShip() {
         // Init image.
@@ -28,11 +30,19 @@ public class BattleShip extends javax.swing.JPanel {
         opponentBoard.linkBoard(playerBoard);
                 
         // The opponent himself.
+        //op = new Opponent(100, "In-Training");
         try { op = OpponentStorage.loadOpponent("In-Training"); }
         catch (Exception e) { System.err.println(e.getMessage()); }
         op.linkBoard(opponentBoard);
         
-        this.displayBoards(-100);
+        this.displayBoards(-100, 0);
+        
+        algo.linkBoard(playerBoard);
+    }
+    
+    public void promptAlgo() {
+        java.awt.Point hit = algo.shoot();
+        
     }
 
     public void playerClick(int x, int y) {
@@ -44,40 +54,18 @@ public class BattleShip extends javax.swing.JPanel {
         }
         
         if (!start) return;
-        
-        // Check if anyone has won.
-        if (playerBoard.areShipsSunk()) { 
-            javax.swing.JOptionPane.showMessageDialog(
-                null, 
-                "You lost!", 
-                "Game Over", 
-                javax.swing.JOptionPane.INFORMATION_MESSAGE
-            );
-            resetAll();
-        }
-        else if (opponentBoard.areShipsSunk()) { 
-            javax.swing.JOptionPane.showMessageDialog(
-                null, 
-                "You won!", 
-                "Victory", 
-                javax.swing.JOptionPane.INFORMATION_MESSAGE
-            );
-            resetAll();
-        }
+
+
     }
     public void resetAll() {
-        playerBoard.clearShots();
+        playerBoard.clear();
         opponentBoard.clear();
         opponentBoard.shuffleBoats();
         start = false;
     }
     
-    public void startGame() {
-        playerBoard.notifyStart();
-        opponentBoard.notifyStart();
-        start = true;
-    }
-    public boolean hasGameStarted() { return playerBoard.hasGameStarted(); }
+    public void startGame() { start = true; }
+    public static boolean hasGameStarted() { return start; }
     
     public boolean arePlayerShipsPlaced() {
         return playerBoard.areShipsPlaced();
@@ -88,8 +76,11 @@ public class BattleShip extends javax.swing.JPanel {
     public void saveOpponent() { System.out.println("Saving Opponent..."); OpponentStorage.saveOpponent(op); }
     public void printOpponent() { System.out.println(op.toCSV()); }
     
-    public void displayBoards(float time) {
-        image = playerBoard.writeToImage(image, time);
+    public boolean opponentBoardAreShipsSunk() { return opponentBoard.areShipsSunk(); }
+    public boolean playerBoardAreShipsSunk() { return playerBoard.areShipsSunk(); }
+    
+    public void displayBoards(float wave, int time) {
+        image = playerBoard.writeToImage(image, wave, time);
         image = opponentBoard.writeHits(image);
         repaint();
     }

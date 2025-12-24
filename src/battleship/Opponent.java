@@ -26,6 +26,7 @@ public class Opponent {
         float max = Float.NEGATIVE_INFINITY;
         int idx = 0;
         for (int i = 0; thought.length > i; i++) {
+            //System.out.println("Idx: " + i + "\tThought: " + thought[i]);
             if (thought[i] > max) {
                 idx = i;
                 max = thought[i];
